@@ -1,0 +1,31 @@
+name: Python CI Test
+
+on:
+  push:
+    branches:
+      - '**'  # runs on any branch
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  install-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.13
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ci-tests/requirements.txt
+
+      - name: Run installation test
+        run: |
+          python ci-tests/installation_test.py
